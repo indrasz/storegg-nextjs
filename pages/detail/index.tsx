@@ -1,7 +1,7 @@
 import Footer from "../../components/organism/Footer";
 import Navbar from "../../components/organism/Navbar";
 import TopUpItem from "../../components/organism/TopUpItem";
-import TopUpForm from "../../components/TopUpForm";
+import TopUpForm from "../../components/organism/TopUpForm";
 
 export default function Detail() {
     return (
