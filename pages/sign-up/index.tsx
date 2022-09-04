@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import SignInForm from '../../components/organism/SignInForm';
+import SignUpForm from '../../components/organism/SignUpForm';
 
 export default function SignUp() {
   return (
@@ -14,7 +14,7 @@ export default function SignUp() {
               </a>
             </Link>
           </div>
-          <SignInForm />
+          <SignUpForm />
         </form>
       </div>
     </section>
