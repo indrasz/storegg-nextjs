@@ -1,8 +1,22 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { GameItemTypes } from "../../../services/data-types";
+import { getFeaturedGame } from "../../../services/player";
 import GameItem from "../../molecules/GameItem";
 
 export default function FeaturedGame() {
 
+    const [gameList, setgameList] = useState([]);
+
+    const getFeaturedGameList = useCallback(async () => {
+        const data = await getFeaturedGame();
+        setgameList(data);
+    }, [getFeaturedGame]);
+
+    useEffect(() => {
+        getFeaturedGameList();
+    }, []);
+
+    const API_IMG = process.env.NEXT_PUBLIC_IMG;
     return (
         <section className="featured-game pt-50 pb-50">
             <div className="container-fluid">
@@ -16,43 +30,20 @@ export default function FeaturedGame() {
                     className="d-flex flex-row flex-lg-wrap overflow-setting justify-content-lg-between gap-lg-3 gap-4"
                     data-aos="fade-up"
                 >
-                    <GameItem
-                        key={1}
-                        title={'Games'}
-                        category={'Category'}
-                        thumbnail={`/img/Thumbnail-1.png`}
-                        id={'1'}
-                    />
-                    <GameItem
-                        key={1}
-                        title={'Games'}
-                        category={'Category'}
-                        thumbnail={`/img/Thumbnail-2.png`}
-                        id={'1'}
-                    />
-                    <GameItem
-                        key={1}
-                        title={'Games'}
-                        category={'Category'}
-                        thumbnail={`/img/Thumbnail-3.png`}
-                        id={'1'}
-                    />
+                    {
+                        gameList.map(
+                            (item: GameItemTypes) => (
+                                <GameItem
+                                    key={item._id}
+                                    title={item.name}
+                                    category={item.category.name}
+                                    thumbnail={`${API_IMG}/${item.thumbnail}`}
+                                    id={item._id}
+                                />
+                            )
+                        )
+                    }
 
-                    <GameItem
-                        key={1}
-                        title={'Games'}
-                        category={'Category'}
-                        thumbnail={`/img/Thumbnail-4.png`}
-                        id={'1'}
-                    />
-
-                    <GameItem
-                        key={1}
-                        title={'Games'}
-                        category={'Category'}
-                        thumbnail={`/img/Thumbnail-5.png`}
-                        id={'1'}
-                    />
                 </div>
             </div>
         </section>

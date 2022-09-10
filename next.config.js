@@ -1,7 +1,14 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
+module.exports = {
+  images: {
+    domains: ['storegg-main.herokuapp.com']
+  }
 }
 
-module.exports = nextConfig
+// const nextConfig = {
+//   reactStrictMode: true,
+//   images: {
+//     domains: ['storegg-main.herokuapp.com']
+//   }
+// }
+
+// module.exports = nextConfig
