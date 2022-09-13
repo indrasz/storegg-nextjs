@@ -1,7 +1,30 @@
 import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+import { getGameCategory } from "../../services/player";
+import { CategoryTypes } from '../../services/data-types';
 
 
 export default function SignUpPhoto() {
+
+    const [categories, setCategories] = useState([]);
+    const [favorite, setfavorite] = useState('');
+
+
+    const getGameCategoryAPI = useCallback( async()=>{
+        const data = await getGameCategory();
+        console.log('data :', data);
+        setCategories(data);
+        setfavorite(data[0]._id);
+    }, [getGameCategory])
+
+    useEffect(() => {
+        getGameCategoryAPI();
+    }, []);
+
+    const onSubmit = () => {
+        console.log('favorite:', favorite);
+    }
+
     return (
         <section className="sign-up-photo mx-auto pt-lg-227 pb-lg-227 pt-130 pb-50">
             <div className="container mx-auto">
@@ -33,12 +56,20 @@ export default function SignUpPhoto() {
                                     name="category"
                                     className="form-select d-block w-100 rounded-pill text-lg"
                                     aria-label="Favorite Game"
+                                    value={favorite}
+                                    onChange={(event) => setfavorite(event.target.value)}
                                 >
-                                    <option
-                                        selected
-                                    >
-                                        Name
-                                    </option>
+
+                                    {categories.map((category : CategoryTypes) => (
+                                        <option
+                                            key={category._id}
+                                            value={category._id}
+                                            selected
+                                        >
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                    
                                 </select>
                             </div>
                         </div>
@@ -47,6 +78,7 @@ export default function SignUpPhoto() {
                             <button
                                 type="button"
                                 className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
+                                onClick={onSubmit}
                             >
                                 Create My Account
                             </button>
