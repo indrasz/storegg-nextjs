@@ -1,7 +1,14 @@
+import { NominalsTypes, PaymentTypes } from "../../../services/data-types";
 import NominalItem from "../../molecules/NominalItem";
 import PaymentItem from "../../molecules/PaymentItem";
 
-export default function TopUpForm() {
+interface TopUpFormProps {
+    nominals: NominalsTypes[];
+    payments: PaymentTypes[];
+}
+
+export default function TopUpForm(props: TopUpFormProps) {
+    const { nominals, payments } = props;
     return (
         <>
             <div className="pt-md-50 pt-30">
@@ -23,13 +30,21 @@ export default function TopUpForm() {
             <div className="pt-md-50 pb-md-50 pt-30 pb-20">
                 <p className="text-lg fw-medium color-palette-1 mb-md-10 mb-0">Nominal Top Up</p>
                 <div className="row justify-content-between">
-                    <NominalItem
-                        key={1}
-                        _id={'1'}
-                        coinQuantity={500}
-                        coinName={'coin name'}
-                        price={500}
-                    />
+
+                    {
+                        nominals.map(
+                            (nominal) => (
+                                <NominalItem
+                                    key={nominal._id}
+                                    _id={nominal._id}
+                                    coinQuantity={nominal.coinQuantity}
+                                    coinName={nominal.coinName}
+                                    price={nominal.price}
+                                />
+                            )
+                        )
+                    }
+
                     <div className="col-lg-4 col-sm-6" />
                 </div>
             </div>
@@ -37,13 +52,22 @@ export default function TopUpForm() {
                 <p className="text-lg fw-medium color-palette-1 mb-md-10 mb-0">Payment Method</p>
                 <fieldset id="paymentMethod">
                     <div className="row justify-content-between">
-                        <PaymentItem
-                            key={2}
-                            bankID={'2'}
-                            type={'typr'}
-                            name={'name'}
-                            // onChange={() => onPaymentItemChange(payment, bank)}
-                        />
+                        {
+                            payments.map(
+                                (payment) => (
+                                    payment.banks.map(
+                                        bank => (
+                                            <PaymentItem
+                                                key={bank._id}
+                                                bankID={bank._id}
+                                                type={payment.type}
+                                                name={bank.bankName}
+                                            />
+                                        )
+                                    )
+                                )
+                            )
+                        }
                         <div className="col-lg-4 col-sm-6" />
                     </div>
                 </fieldset>
